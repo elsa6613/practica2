@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
 #define N 512
 float Mat[N][N];
 float MatDD[N][N];
@@ -52,7 +52,7 @@ printf("\n");
 
 void MultEscalar( float vect[N], float vectres[N], float alfa ){
 	for (int i = 0; i < N; i++){
-		res = alfa * vect[i];
+		float res = alfa * vect[i];
 		printf("%f",res);
 	}
 printf("\n");
@@ -64,29 +64,89 @@ float Scalar( float vect1[N], float vect2[N]) {
 	float res = 0;
 	for ( int i = 0; i < N; i++) {
 		res += vect1[i] * vect2[i];
-	printf("%f",res);
+	return res;
 	}
-printf("\n");
 }
 
 //Activitat 5
 
-float Magnitude( float vect[N] )
-	float sum = 0;
-	for ( int i = 0; i < N; i++) {
-		sum += vect[i] * vect[i];
-	}
-	res = sqrt(sum);
-	printf("%f",res);
-	printf("\n");
+float Magnitude( float vect[N] ) {
+	float res = Scalar( vect, vect );
+	float sol = sqrt(res);
+	return sol;
 }
 
 //Activitat 6
 
-int Ortogonal( float vect1[N], float vect2[N] )
+int Ortogonal( float vect1[N], float vect2[N] ) {
+	float res = Scalar( vect1, vect2 );
+	if ( res == 0 )
+		return 1;
+	else
+		return 0;
+}
+//Activitat 7
+
+void Projection( float vect1[N], float vect2[N], float vectres[N] ) {
+	float res = Scalar( vect1, vect2);
+	float magn =  Magnitude(vect1);
+	float div = (res / magn) * vect1[N];
+	return div;
+}
+
+//Activitat 8
+
+float Infininorm( float M[N][N] );
+	sum = 0;
+	for (int i = 0; i < N; i++){
+		for (int j = 0; j < N; j++){
+			sum += fabs(M[i][j]);
+		}
+	}
+	return sum;
+}
+
+//Activitat 9
+
+float Onenorm( float M[N][N] );
+	sum = 0;
+	for (int j = 0; j < N; j++){
+        	for (int i = 0; i < N; i++){
+        		sum += fabs(M[i][j]);
+                }
+        }
+        return sum;
+}
+
+//Activitat 10
+
+float NormFrobenius( float M[N][N] );
+	sum = 0;
+        for (int i = 0; i < N; i++){
+                for (int j = 0; j < N; j++){
+                        sum += M[i][j] ** 2;
+                }
+        }
+	res = sqrt(sum);
+        return res;
+}
+
+//Activitat 11
+
+int DiagonalDom( float M[N][N] );
+
+
+
+//Activitat 12
+
+void Matriu_x_Vector( float M[N][N], float vect[N], float vectres[N] )
+
+//Activitat 13
+
+int Jacobi( float M[N][N] , float vect[N], float vectres[N], unsigned iter )
 
 //Main
 void main(){
 	InitData();
-	PrintRow(Mat,0,0,10);
+	Escalar(V3, 9, 2);
 }
