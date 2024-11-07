@@ -87,7 +87,7 @@ int Ortogonal( float vect1[N], float vect2[N] ) {
 }
 //Activitat 7
 
-void Projection( float vect1[N], float vect2[N], float vectres[N] ) {
+int Projection( float vect1[N], float vect2[N], float vectres[N] ) {
 	float res = Scalar( vect1, vect2);
 	float magn =  Magnitude(vect1);
 	float div = (res / magn) * vect1[N];
@@ -141,22 +141,19 @@ float NormFrobenius( float M[N][N] ) {
 //Activitat 11
 
 int DiagonalDom( float M[N][N] ) {
-        float sum;
-        float diagonal;
         for (int i = 0; i < N; i++){
-                diagonal = fabs(M[i][j]);
-                sum = 0;
+                float diagonal = fabs(M[i][i]);
+                float sum = 0;
                 for (int j = 0; j < N; j++){
                         if (i!=j){
                                 sum += fabs(M[i][j]);
                         }
                 }
-        	if ( diagonal > sum ){
-                	return 1;
-        	else
+        	if ( diagonal < sum ){
                 	return 0;
 		}
         }
+	return 1;
 }
 
 //Activitat 12
@@ -164,7 +161,7 @@ int DiagonalDom( float M[N][N] ) {
 void Matriu_x_Vector( float M[N][N], float vect[N], float vectres[N] ) {
         for (int i = 0; i < N; i++){
                 for (int j = 0; j < N; j++) {
-
+			vectres[i] += M[i][j]*vect[j];
                 }
         }
 }
