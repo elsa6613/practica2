@@ -35,14 +35,14 @@ void PrintVect( float vect[N], int from, int numel ){
 	for ( int i = from; i < numel; i++){
 		printf("%f ",vect[i]);
 	}
-printf("\n");
+	printf("\n");
 }
 
 //Activitat 2
 
 
 void PrintRow( float mat[N][N], int row, int from, int numel ){
-	for (int i = from; mat[i = row][N] < numel; i++){
+	for (int i = from; i < numel; i++){
 		printf("%f",mat[row][i]);
 	}
 printf("\n");
@@ -52,8 +52,8 @@ printf("\n");
 
 void MultEscalar( float vect[N], float vectres[N], float alfa ){
 	for (int i = 0; i < N; i++){
-		float res = alfa * vect[i];
-		printf("%f",res);
+		vectres[i] = alfa * vect[i];
+		printf("%f",vectres[i]);
 	}
 printf("\n");
 }
@@ -64,8 +64,8 @@ float Scalar( float vect1[N], float vect2[N]) {
 	float res = 0;
 	for ( int i = 0; i < N; i++) {
 		res += vect1[i] * vect2[i];
-	return res;
 	}
+	return res;
 }
 
 //Activitat 5
@@ -96,57 +96,140 @@ void Projection( float vect1[N], float vect2[N], float vectres[N] ) {
 
 //Activitat 8
 
-float Infininorm( float M[N][N] );
-	sum = 0;
-	for (int i = 0; i < N; i++){
-		for (int j = 0; j < N; j++){
-			sum += fabs(M[i][j]);
-		}
-	}
-	return sum;
+float Infininorm( float M[N][N] ) {
+        float sum = 0;
+        float max = 0;
+        for (int i = 0; i < N; i++){
+                for (int j = 0; j < N; j++){
+                        sum += fabs(M[i][j]);
+                }
+        }
+        if (sum > max)
+                max = sum;
+        return max;
 }
 
 //Activitat 9
 
-float Onenorm( float M[N][N] );
-	sum = 0;
-	for (int j = 0; j < N; j++){
-        	for (int i = 0; i < N; i++){
-        		sum += fabs(M[i][j]);
+float Onenorm( float M[N][N] ) {
+        float sum = 0;
+        float max = 0;
+        for (int j = 0; j < N; j++){
+                for (int i = 0; i < N; i++){
+                        sum += fabs(M[i][j]);
                 }
-        }
-        return sum;
+        	if (sum > max){
+                	max = sum;
+		}
+	}
+        return max;
 }
 
 //Activitat 10
 
-float NormFrobenius( float M[N][N] );
-	sum = 0;
+float NormFrobenius( float M[N][N] ) {
+        float sum = 0;
         for (int i = 0; i < N; i++){
                 for (int j = 0; j < N; j++){
-                        sum += M[i][j] ** 2;
+                                sum += fabs(M[i][j]*M[i][j]);
                 }
         }
-	res = sqrt(sum);
+        float res = sqrt(sum);
         return res;
 }
 
 //Activitat 11
 
-int DiagonalDom( float M[N][N] );
-
-
+int DiagonalDom( float M[N][N] ) {
+        float sum;
+        float diagonal;
+        for (int i = 0; i < N; i++){
+                diagonal = fabs(M[i][j]);
+                sum = 0;
+                for (int j = 0; j < N; j++){
+                        if (i!=j){
+                                sum += fabs(M[i][j]);
+                        }
+                }
+        	if ( diagonal > sum ){
+                	return 1;
+        	else
+                	return 0;
+		}
+        }
+}
 
 //Activitat 12
 
-void Matriu_x_Vector( float M[N][N], float vect[N], float vectres[N] )
+void Matriu_x_Vector( float M[N][N], float vect[N], float vectres[N] ) {
+        for (int i = 0; i < N; i++){
+                for (int j = 0; j < N; j++) {
+
+                }
+        }
+}
 
 //Activitat 13
 
-int Jacobi( float M[N][N] , float vect[N], float vectres[N], unsigned iter )
+int Jacobi( float M[N][N] , float vect[N], float vectres[N], unsigned iter ){
+    float nou[N];
+    int i, j;
+    float suma, diferencia;
 
+    for (i = 0; i < N; i++) {
+        vectres[i] = 0.0;
+    }
+
+    for (unsigned k = 0; k < iter; k++) {
+        for (i = 0; i < N; i++) {
+            //suma `vect[i] - sum(A[i][j] * x[j])` per a totes les j ≠ i
+            suma = vect[i];
+            for (j = 0; j < N; j++) {
+                if (j != i) {
+                    suma -= M[i][j] * vectres[j];
+                }
+            }
+            nou[i] = suma / M[i][i];
+        }
+        //comprovar convergència(comparar nous valors i antics)
+        diferencia = 0.0;
+        for (i = 0; i < N; i++) {
+            diferencia += fabs(nou[i] - vectres[i]);
+            vectres[i] = nou[i];
+        }
+
+        if (diferencia < 1e-6) { //si diferencia menor que tolerancia, sistema convergit
+            return 1;
+        }
+    }
+
+    return 0;
+}
 //Main
-void main(){
+int main(){
 	InitData();
-	Escalar(V3, 9, 2);
+	
+	//a
+        PrintVect(V1,0,10);
+	PrintVect(V1,256,10);
+	printf("\n");
+
+	//b
+	PrintRow(Mat,0,0,10);
+	PrintRow(Mat,100,0,10);
+	printf("\n");
+
+	//c
+	PrintRow(MatDD,0,0,10);
+	PrintRow(MatDD,100,95,10);
+	printf("\n");
+
+	//d
+	printf("Infininorm(Mat): %f\n", Infininorm(Mat));
+	printf("Onenorm(Mat): %f\n", Onenorm(Mat));
+	printf("NormFrobenius(Mat): %f\n\n", NormFrobenius(Mat));
+	
+	printf("Infininorm(MatDD): %f\n", Infininorm(MatDD));
+        printf("Onenorm(MatDD): %f\n", Onenorm(MatDD));
+        printf("NormFrobenius(MatDD): %f\n\n", NormFrobenius(MatDD));
 }
