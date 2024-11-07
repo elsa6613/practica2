@@ -54,24 +54,6 @@ void MultEscalar( float vect[N], float vectres[N], float alfa ){
 	for (int i = 0; i < N; i++){
 		vectres[i] = alfa * vect[i];
 	}
-//Activitat 4
-
-float Scalar( float vect1[N], float vect2[N]) {
-        float res = 0;
-        for ( int i = 0; i < N; i++) {
-                res += vect1[i] * vect2[i];
-        }
-        return res;
-}
-
-//Activitat 5
-
-float Magnitude( float vect[N] ) {
-        float res = Scalar( vect, vect );
-        float sol = sqrt(res);
-        return sol;
-}
-}
 
 //Activitat 4
 
@@ -102,7 +84,7 @@ int Ortogonal( float vect1[N], float vect2[N] ) {
 }
 //Activitat 7
 
-int Projection( float vect1[N], float vect2[N], float vectres[N] ) {
+void Projection( float vect1[N], float vect2[N], float vectres[N] ) {
 	float res = Scalar( vect1, vect2);
 	float magn =  Magnitude(vect1);
 	float scalar = res / magn;
@@ -222,7 +204,7 @@ int Jacobi( float M[N][N] , float vect[N], float vectres[N], unsigned iter ){
 //Main
 int main(){
 	InitData();
-	
+
 	//a
 	printf("Activitat a\n");
         PrintVect(V1,0,10);
